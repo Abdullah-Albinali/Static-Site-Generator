@@ -35,3 +35,24 @@ class LeafNode(HTMLnode):
         else:
             return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
+
+class ParentNode(HTMLnode):
+    def __init__(self, tag,children, props = None ):
+        super().__init__(tag, None ,children, props = props)
+
+    def to_html(self):
+        if self.tag is None or self.tag =="":
+            raise ValueError("Tag cannot be empty")
+        if self.children is None or self.children == "":
+            raise ValueError("Children cannot be empty")
+        else:
+            # return a string representing the HTML tag of the node and its children. This should be a recursive method (each recursion being called on a nested child node).
+            html =""
+            for child in self.children:
+                if type(child) == ParentNode:
+                    html = html + child.to_html()
+                else:
+                    html = html + child.to_html()
+
+            return f"<{self.tag}>{html}</{self.tag}>"
+
