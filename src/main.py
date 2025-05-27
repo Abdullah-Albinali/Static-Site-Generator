@@ -1,9 +1,8 @@
-from unittest import case
 import re
 
 
-from textnode import TextNode, TextType
-from htmlnode import LeafNode
+from src.textnode import TextNode, TextType
+from src.htmlnode import LeafNode
 
 
 def text_node_to_html_node(text_node):
@@ -45,6 +44,35 @@ def extract_markdown_links(text):
     return re.findall(r"[^!]\[(.*?)\]\((.*?)\)", text)
 
 
+
+def split_nodes_image(old_nodes):
+    # if old_nodes.text == "" or old_nodes.text is None:
+    #     return []
+    #
+    # new_nodes = []
+    # temp =
+    #
+    # return new_nodes
+    pass
+
+
+
+def split_nodes_link(old_nodes):
+    if old_nodes.text == "" or old_nodes.text is None:
+        return []
+
+    new_nodes = []
+    temp = extract_markdown_links(old_nodes.text)
+    temp2 = []
+    if temp == []:
+        return old_nodes
+    word_to_split = old_nodes.text
+    for item in temp:
+        #TODO fix this
+        temp2.append(word_to_split.split(f"[{item[0]}]({item[1]})", 1)[0])
+        word_to_split = str(word_to_split.split(f"[{item[0]}]({item[1]})", 1)[1:])
+
+    return temp2
 
 def main():
     a = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
